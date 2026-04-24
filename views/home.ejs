@@ -1,0 +1,51 @@
+<%- include("partials/head", { title }) %>
+  <main class="page">
+    <div class="site-header">
+      <a class="brand" href="/home">Twitter Clone</a>
+      <form action="/logout" method="POST">
+        <button class="btn btn-secondary" type="submit">Logout</button>
+      </form>
+    </div>
+
+    <section class="dashboard">
+      <aside class="profile-card">
+        <% if (user) { %>
+          <% if (profile && profile.avatar_path) { %>
+            <img class="avatar" src="<%= profile.avatar_path %>" alt="<%= profile.username %> avatar" />
+          <% } else { %>
+            <div class="avatar-placeholder"><%= user.username.charAt(0).toUpperCase() %></div>
+          <% } %>
+          <h2><%= profile?.full_name ? profile.full_name : user.username %></h2>
+          <p class="muted">@<%= user.username %></p>
+          <p class="muted"><%= user.email %></p>
+          <p class="muted">User ID: <%= user.userId %></p>
+          <% if (profile) { %>
+            <% if (profile.bio) { %>
+              <p><strong>Bio:</strong> <%= profile.bio %></p>
+            <% } %>
+            <p><strong>Full name:</strong> <%= profile.full_name || "Not set" %></p>
+            <p><strong>Avatar path:</strong> <%= profile.avatar_path || "Not set" %></p>
+            <p><strong>Joined:</strong> <%= profile.created_at ? new Date(profile.created_at).toLocaleString() : "Unknown" %></p>
+            <p><strong>Last updated:</strong> <%= profile.updated_at ? new Date(profile.updated_at).toLocaleString() : "Unknown" %></p>
+          <% } %>
+        <% } else { %>
+          <p class="muted">No user data available.</p>
+        <% } %>
+      </aside>
+
+      <section class="feed">
+        <p class="brand">Protected area</p>
+        <h1>Home timeline</h1>
+        <p>
+          Authentication is working. This is the right place to add tweet creation, follow
+          suggestions, and the main feed next.
+        </p>
+
+        <div class="tweet-placeholder">
+          <strong>Next build step</strong>
+          <p class="muted">Create a posts table, compose form, and timeline query for your Twitter clone.</p>
+        </div>
+      </section>
+    </section>
+  </main>
+<%- include("partials/footer") %>

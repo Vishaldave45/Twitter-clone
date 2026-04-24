@@ -1,0 +1,69 @@
+<%- include("partials/head", { title }) %>
+  <main class="page">
+    <div class="site-header">
+      <a class="brand" href="/">Twitter Clone</a>
+      <div class="header-actions">
+        <a class="btn btn-secondary" href="/signin">Have an account?</a>
+      </div>
+    </div>
+
+    <section class="form-card">
+      <p class="brand">Join now</p>
+      <h1>Create your account</h1>
+      <p>Start with the core auth flow before building tweets, follows, and feeds.</p>
+
+      <% if (formError) { %>
+        <div class="alert alert-error"><%= formError %></div>
+      <% } %>
+
+      <form action="/signup" method="POST" enctype="multipart/form-data">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="fullName">Full name</label>
+            <input id="fullName" name="fullName" value="<%= values.fullName %>" />
+            <% if (errors.fullName) { %><span class="error-text"><%= errors.fullName %></span><% } %>
+          </div>
+
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input id="username" name="username" value="<%= values.username %>" />
+            <% if (errors.username) { %><span class="error-text"><%= errors.username %></span><% } %>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" value="<%= values.email %>" />
+            <% if (errors.email) { %><span class="error-text"><%= errors.email %></span><% } %>
+          </div>
+
+          <div class="form-group">
+            <label for="avatar">Avatar</label>
+            <input id="avatar" name="avatar" type="file" accept="image/*" />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" />
+            <% if (errors.password) { %><span class="error-text"><%= errors.password %></span><% } %>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">Confirm password</label>
+            <input id="confirmPassword" name="confirmPassword" type="password" />
+            <% if (errors.confirmPassword) { %><span class="error-text"><%= errors.confirmPassword %></span><% } %>
+          </div>
+
+          <div class="form-group full">
+            <label for="bio">Bio</label>
+            <textarea id="bio" name="bio" maxlength="280"><%= values.bio %></textarea>
+            <% if (errors.bio) { %><span class="error-text"><%= errors.bio %></span><% } %>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary" type="submit">Create account</button>
+        </div>
+      </form>
+    </section>
+  </main>
+<%- include("partials/footer") %>

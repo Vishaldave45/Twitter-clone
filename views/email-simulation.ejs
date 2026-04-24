@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Email Simulation</h2>
+    <p>This page simulates the email that would be sent to the user for password reset.</p>
+
+    <div style="border: 1px solid #ccc; padding: 20px; width: 400px;">
+        <h3>Password Reset Request</h3>
+        <p>Your OTP is : <strong><%= otp %></strong></p>
+
+        <h1 id="otp"><%= otp|| "******" %></h1>
+
+        <p id="timer">02:00</p>
+    </div>
+
+    <form action="/verify-otp" method="post">
+        <input type="hidden" name="email" value="<%= email %>" />
+        <input type="text" name="otp" placeholder="Enter OTP" required />
+        <button type="submit">Verify OTP</button>
+    </form>
+
+    <form action="/resend-otp" method="post">
+        <input type="hidden" name="email" value="<%= email %>" />
+        <button type="submit">Resend OTP</button>
+
+    </form>
+
+    <script>
+        let time=120;
+        const timerel=document.getElementById("timer");
+        const resendBtn=document.getElementById("resendBtn");
+
+        const interval=setInterval(()=>{
+            let min=Math.floor(time/60);
+            let sec=time%60;
+
+            timerel.innerText=String(min).padStart(2,'0') + ":" + String(sec).padStart(2,'0');
+
+            time--;
+            if(time<0){
+                clearInterval(interval);
+                timerel.innerText="OTP expired. Please request a new one.";
+                resendBtn.disabled=false;
+            }
+        },1000);
+    </script>
+</body>
+</html>
