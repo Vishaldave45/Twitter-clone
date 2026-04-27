@@ -1,0 +1,43 @@
+<%- include("partials/head", { title: "Discover Users" }) %>
+  <main class="page">
+    <div class="site-header">
+      <a class="brand" href="/home">Twitter Clone</a>
+      <div class="header-actions">
+        <a class="btn btn-secondary" href="/profile">My Profile</a>
+        <a class="btn btn-secondary" href="/home">Home</a>
+        <form  class="btn btn-secondary" action="/search" method="get">
+            <input  type="text" name="q" placeholder="Search User" value="<%= typeof query !=='undefined' ? query :'' %>">
+            <button  class="btn" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+
+    <section class="feed">
+      <p class="brand">Discover</p>
+      <h1>People</h1>
+
+      <div class="user-grid">
+        <% if (users.length === 0) { %>
+          <p>No users found yet.</p>
+        <% } %>
+
+        <% users.forEach(user => { %>
+          <article class="user-card">
+            <% if (user.avatar_path) { %>
+              <img class="avatar" src="/uploads/<%= user.avatar_path %>" alt="<%= user.username %> avatar" />
+            <% } else { %>
+              <div class="avatar-placeholder"><%= user.full_name?.charAt(0).toUpperCase() %></div>
+            <% } %>
+            <div>
+              <h2><a href="/user/<%= user.username %>">@<%= user.username %></a></h2>
+              <p><%= user.full_name %></p>
+              <% if (user.bio) { %>
+                <p class="muted"><%= user.bio %></p>
+              <% } %>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+    </section>
+  </main>
+<%- include("partials/footer") %>

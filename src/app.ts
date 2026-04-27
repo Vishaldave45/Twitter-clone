@@ -6,6 +6,8 @@ import { attachCurrentUser } from "./middlewares/auth.middleware";
 import { errorHandler } from "./middlewares/error.middleware";
 import authRoutes from "./routes/auth.routes";
 import indexRoutes from "./routes/index.routes";
+import tweetRoutes from "./routes/tweet.routes";
+import userRoutes from "./routes/user.routes";
 
 const app = express();
 
@@ -20,7 +22,9 @@ app.use(cookieParser());
 app.use(attachCurrentUser);
 
 app.use(indexRoutes);
-app.use("/",authRoutes);
+app.use("/", authRoutes);
+app.use("/", userRoutes);
+app.use("/", tweetRoutes);
 
 app.use((_req, res) => {
   res.status(404).render("error", {

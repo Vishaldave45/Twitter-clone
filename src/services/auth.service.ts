@@ -25,9 +25,9 @@ export async function usernameExists(username: string): Promise<boolean> {
 export async function createUser(input: SignupInput, avatarPath?: string): Promise<UserRecord> {
   const passwordHash = await bcrypt.hash(input.password, 12);
   const [result] = await db.execute<ResultSetHeader>(
-    `INSERT INTO users (full_name, username, email, password_hash, bio, avatar_path)
-     VALUES (?, ?, ?, ?, ?, ?)`,
-    [input.fullName, input.username, input.email, passwordHash, input.bio || null, avatarPath ?? null]
+    `INSERT INTO users (full_name, username, email, password_hash, bio, avatar_path, time_zone)
+     VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    [input.fullName, input.username, input.email, passwordHash, input.bio || null, avatarPath ?? null, input.timeZone]
   );
 
   const [rows] = await db.query<(UserRecord & RowDataPacket)[]>("SELECT * FROM users WHERE id = ? LIMIT 1", [

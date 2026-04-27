@@ -5,6 +5,7 @@ export interface SignupInput {
   password: string;
   confirmPassword: string;
   bio: string;
+  timeZone: string;
 }
 
 export interface SigninInput {
@@ -22,6 +23,8 @@ export interface UserRecord {
   password_hash: string;
   bio: string | null;
   avatar_path: string | null;
+  cover_image_path: string | null;
+  time_zone: string;
   created_at: Date;
   updated_at: Date;
 }

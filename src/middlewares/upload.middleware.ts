@@ -33,3 +33,38 @@ export const uploadAvatar = multer({
     cb(null, true);
   }
 });
+
+export const uploadAvatarMiddleware = uploadAvatar.single('avatar');
+
+export const uploadProfile = multer({
+  storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024 // 5MB for larger files
+  },
+  fileFilter: (_req, file, cb) => {
+    if (!file.mimetype.startsWith("image/")) {
+      cb(new Error("Only image uploads are allowed."));
+      return;
+    }
+
+    cb(null, true);
+  }
+}).fields([
+  { name: 'avatar', maxCount: 1 },
+  { name: 'cover', maxCount: 1 }
+]);
+
+export const uploadTweetImage = multer({
+  storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024
+  },
+  fileFilter: (_req, file, cb) => {
+    if (!file.mimetype.startsWith("image/")) {
+      cb(new Error("Only image uploads are allowed."));
+      return;
+    }
+
+    cb(null, true);
+  }
+}).single("image");

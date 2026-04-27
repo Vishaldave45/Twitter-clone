@@ -8,6 +8,7 @@ import {
   usernameExists,
   verifyUserCredentials
 } from "../services/auth.service";
+import { getFeedTweets } from "../services/tweet.service";
 import { SigninInput, SignupInput, ValidationErrors } from "../types/auth";
 import { signAuthToken } from "../utils/jwt";
 import {
@@ -17,7 +18,6 @@ import {
   validateSignupInput
 } from "../validators/auth.validator";
 import { db } from "../config/db";
-import { error } from "console";
 
 function renderSignup(
   res: Response,
@@ -69,7 +69,8 @@ export function showSignup(_req: Request, res: Response): void {
       email: "",
       password: "",
       confirmPassword: "",
-      bio: ""
+      bio: "",
+      timeZone: ""
     },
     errors: {},
     formError: ""
@@ -95,7 +96,7 @@ export async function signup(req: Request, res: Response): Promise<void> {
     return;
   }
 
-  const avatarPath = req.file ? `/uploads/${req.file.filename}` : undefined;
+  const avatarPath = req.file ? req.file.filename : undefined;
   const user = await createUser(payload, avatarPath);
   const token = signAuthToken({
     userId: user.id,
@@ -147,11 +148,13 @@ export async function signin(req: Request, res: Response): Promise<void> {
 
 export async function showHome(req: Request, res: Response): Promise<void> {
   const profile = req.user ? await findUserById(req.user.userId) : null;
+  const tweets = await getFeedTweets();
 
   res.render("home", {
     title: "Home",
     user: req.user,
-    profile
+    profile,
+    tweets
   });
 }
 

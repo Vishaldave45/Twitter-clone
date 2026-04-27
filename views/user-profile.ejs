@@ -1,0 +1,84 @@
+<%- include("partials/head", { title: user.full_name + " (@" + user.username + ")" }) %>
+  <main class="page">
+    <div class="site-header">
+      <a class="brand" href="/">Twitter Clone</a>
+      <div class="header-actions">
+        <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+          <a class="btn btn-secondary" href="/profile">My Profile</a>
+        <% } %>
+        <a class="btn btn-secondary" href="/home">Home</a>
+        
+      </div>
+    </div>
+
+    <section class="profile-section">
+      <div class="profile-cover">
+        <% if (user.cover_image_path) { %>
+          <img src="/uploads/<%= user.cover_image_path %>" alt="Cover" class="cover-image" />
+        <% } else { %>
+          <div class="cover-placeholder"></div>
+        <% } %>
+      </div>
+
+      <div class="profile-header">
+        <div class="profile-avatar">
+          <% if (user.avatar_path) { %>
+            <img src="/uploads/<%= user.avatar_path %>" alt="Avatar" class="avatar-image" />
+          <% } else { %>
+            <div class="avatar-placeholder"><%= user.full_name.charAt(0).toUpperCase() %></div>
+          <% } %>
+        </div>
+
+        <div class="profile-info">
+          <h1><%= user.full_name %></h1>
+          <p class="username">@<%= user.username %></p>
+          <% if (user.bio) { %>
+            <p class="bio"><%= user.bio %></p>
+          <% } %>
+          <div class="profile-meta">
+            <span><strong>Joined:</strong> <%= new Date(user.created_at).toLocaleDateString() %></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tweets-section">
+      <h2><%= user.full_name %>'s Tweets</h2>
+      <% if (tweets && tweets.length > 0) { %>
+        <div class="tweets-list">
+          <% tweets.forEach(tweet => { %>
+            <div class="tweet-card">
+              <div class="tweet-header">
+                <div class="tweet-avatar">
+                  <% if (tweet.avatar_path) { %>
+                    <img src="/uploads/<%= tweet.avatar_path %>" alt="Avatar" class="avatar-small" />
+                  <% } else { %>
+                    <div class="avatar-placeholder-small"><%= tweet.full_name.charAt(0).toUpperCase() %></div>
+                  <% } %>
+                </div>
+                <div class="tweet-user-info">
+                  <span class="tweet-full-name"><%= tweet.full_name %></span>
+                  <span class="tweet-username">@<%= tweet.username %></span>
+                  <span class="tweet-date"><%= new Date(tweet.created_at).toLocaleDateString() %></span>
+                </div>
+              </div>
+              <div class="tweet-content">
+                <p><%= tweet.text_content %></p>
+                <% if (tweet.image_path) { %>
+                  <img src="/uploads/<%= tweet.image_path %>" alt="Tweet image" class="tweet-image" />
+                <% } %>
+              </div>
+              <div class="tweet-actions">
+                <span class="action-item">❤️ <%= tweet.like_count %></span>
+                <span class="action-item">💬 <%= tweet.comment_count %></span>
+                <span class="action-item">🔄 <%= tweet.repost_count %></span>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      <% } else { %>
+        <p class="no-tweets"><%= user.full_name %> hasn't posted any tweets yet.</p>
+      <% } %>
+    </section>
+  </main>
+<%- include("partials/footer") %>

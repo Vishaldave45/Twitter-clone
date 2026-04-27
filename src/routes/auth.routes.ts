@@ -12,12 +12,12 @@ import {
   showEmailSimulation
 } from "../controllers/auth.controller";
 import { redirectIfAuthenticated } from "../middlewares/auth.middleware";
-import { uploadAvatar } from "../middlewares/upload.middleware";
+import { uploadAvatarMiddleware } from "../middlewares/upload.middleware";
 
 const router = Router();
 
 router.get("/signup", redirectIfAuthenticated, showSignup);
-router.post("/signup", redirectIfAuthenticated, uploadAvatar.single("avatar"), signup);
+router.post("/signup", redirectIfAuthenticated, uploadAvatarMiddleware, signup);
 router.get("/signin", redirectIfAuthenticated, showSignin);
 router.post("/signin", redirectIfAuthenticated, signin);
 router.post("/logout", logout);

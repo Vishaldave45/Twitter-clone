@@ -14,7 +14,8 @@ export function sanitizeSignupInput(body: Record<string, unknown>): SignupInput 
     email: normalizeText(body.email).toLowerCase(),
     password: typeof body.password === "string" ? body.password : "",
     confirmPassword: typeof body.confirmPassword === "string" ? body.confirmPassword : "",
-    bio: normalizeText(body.bio)
+    bio: normalizeText(body.bio),
+    timeZone: normalizeText(body.timeZone)
   };
 }
 
@@ -52,6 +53,10 @@ export function validateSignupInput(input: SignupInput): ValidationErrors<keyof 
 
   if (input.bio.length > 280) {
     errors.bio = "Bio must be 280 characters or less.";
+  }
+
+  if (!input.timeZone) {
+    errors.timeZone = "Time zone is required.";
   }
 
   return errors;

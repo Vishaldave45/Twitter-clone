@@ -58,6 +58,23 @@
             <textarea id="bio" name="bio" maxlength="280"><%= values.bio %></textarea>
             <% if (errors.bio) { %><span class="error-text"><%= errors.bio %></span><% } %>
           </div>
+
+          <div class="form-group">
+            <label for="timeZone">Time Zone</label>
+            <select id="timeZone" name="timeZone" required>
+              <option value="">Select your time zone</option>
+              <option value="UTC" <%= values.timeZone === 'UTC' ? 'selected' : '' %>>UTC</option>
+              <option value="America/New_York" <%= values.timeZone === 'America/New_York' ? 'selected' : '' %>>Eastern Time</option>
+              <option value="America/Chicago" <%= values.timeZone === 'America/Chicago' ? 'selected' : '' %>>Central Time</option>
+              <option value="America/Denver" <%= values.timeZone === 'America/Denver' ? 'selected' : '' %>>Mountain Time</option>
+              <option value="America/Los_Angeles" <%= values.timeZone === 'America/Los_Angeles' ? 'selected' : '' %>>Pacific Time</option>
+              <option value="Europe/London" <%= values.timeZone === 'Europe/London' ? 'selected' : '' %>>London</option>
+              <option value="Europe/Paris" <%= values.timeZone === 'Europe/Paris' ? 'selected' : '' %>>Paris</option>
+              <option value="Asia/Tokyo" <%= values.timeZone === 'Asia/Tokyo' ? 'selected' : '' %>>Tokyo</option>
+              <option value="Australia/Sydney" <%= values.timeZone === 'Australia/Sydney' ? 'selected' : '' %>>Sydney</option>
+            </select>
+            <% if (errors.timeZone) { %><span class="error-text"><%= errors.timeZone %></span><% } %>
+          </div>
         </div>
 
         <div class="hero-actions">

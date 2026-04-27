@@ -1,0 +1,64 @@
+<%- include("partials/head", { title: "Edit Profile" }) %>
+  <main class="page">
+    <div class="site-header">
+      <a class="brand" href="/">Twitter Clone</a>
+      <div class="header-actions">
+        <a class="btn btn-secondary" href="/profile">View Profile</a>
+        <a class="btn btn-secondary" href="/home">Home</a>
+      </div>
+    </div>
+
+    <section class="form-card">
+      <h1>Edit Profile</h1>
+
+      <form action="/profile/edit" method="POST" enctype="multipart/form-data">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="full_name">Full Name</label>
+            <input id="full_name" name="full_name" value="<%= user.full_name %>" required />
+          </div>
+
+          <div class="form-group">
+            <label for="avatar">Profile Picture</label>
+            <input id="avatar" name="avatar" type="file" accept="image/*" />
+            <% if (user.avatar_path) { %>
+              <p>Current: <img src="/uploads/<%= user.avatar_path %>" alt="Current avatar" style="width: 50px; height: 50px; border-radius: 50%;" /></p>
+            <% } %>
+          </div>
+
+          <div class="form-group">
+            <label for="cover">Cover Image</label>
+            <input id="cover" name="cover" type="file" accept="image/*" />
+            <% if (user.cover_image_path) { %>
+              <p>Current: <img src="/uploads/<%= user.cover_image_path %>" alt="Current cover" style="width: 200px; height: 100px; object-fit: cover;" /></p>
+            <% } %>
+          </div>
+
+          <div class="form-group">
+            <label for="time_zone">Time Zone</label>
+            <select id="time_zone" name="time_zone" required>
+              <option value="UTC" <%= user.time_zone === 'UTC' ? 'selected' : '' %>>UTC</option>
+              <option value="America/New_York" <%= user.time_zone === 'America/New_York' ? 'selected' : '' %>>Eastern Time</option>
+              <option value="America/Chicago" <%= user.time_zone === 'America/Chicago' ? 'selected' : '' %>>Central Time</option>
+              <option value="America/Denver" <%= user.time_zone === 'America/Denver' ? 'selected' : '' %>>Mountain Time</option>
+              <option value="America/Los_Angeles" <%= user.time_zone === 'America/Los_Angeles' ? 'selected' : '' %>>Pacific Time</option>
+              <option value="Europe/London" <%= user.time_zone === 'Europe/London' ? 'selected' : '' %>>London</option>
+              <option value="Europe/Paris" <%= user.time_zone === 'Europe/Paris' ? 'selected' : '' %>>Paris</option>
+              <option value="Asia/Tokyo" <%= user.time_zone === 'Asia/Tokyo' ? 'selected' : '' %>>Tokyo</option>
+              <option value="Australia/Sydney" <%= user.time_zone === 'Australia/Sydney' ? 'selected' : '' %>>Sydney</option>
+            </select>
+          </div>
+
+          <div class="form-group full">
+            <label for="bio">Bio</label>
+            <textarea id="bio" name="bio" maxlength="280"><%= user.bio || '' %></textarea>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary" type="submit">Update Profile</button>
+        </div>
+      </form>
+    </section>
+  </main>
+<%- include("partials/footer") %>
