@@ -1,162 +1,190 @@
-# Twitter Clone Auth Starter
+# Twitter Clone
 
-Initial Twitter clone authentication built with Node.js, Express, EJS, MySQL2, JWT, bcrypt, multer, and TypeScript.
+A full-featured Twitter clone built with Node.js, Express, EJS, MySQL2, JWT, bcrypt, multer, and TypeScript. Features user authentication, tweet creation, profile management, and social media functionality.
 
 ## Features
 
-- Signup with name, username, email, password, bio, and optional avatar upload
-- Signin with email or username
+### Authentication & User Management
+- User registration with profile information
+- Secure login with email/username
+- JWT-based authentication with HTTP-only cookies
 - Password hashing with bcrypt
-- JWT-based authentication stored in an HTTP-only cookie
-- Protected home page
-- TypeScript validation for signup and signin payloads
+- Profile editing with avatar and cover image uploads
+- User search functionality
+
+### Tweet Management
+- Create tweets with text and image uploads
+- Edit and delete own tweets
+- Timeline feed showing all tweets
+- Tweet display with user information and engagement metrics
+- Image upload support for tweets
+
+### User Profiles
+- Personal profile pages with user information
+- Display of user's tweets on profile pages
+- Public user profile viewing
+- Profile statistics and metadata
+
+### UI/UX Features
+- Modern, responsive design with CSS Grid and Flexbox
+- Sticky sidebar navigation
+- Mobile-responsive layout
+- Clean, Twitter-inspired interface
+- Form validation with TypeScript
+- Error handling and user feedback
 
 ## Tech Stack
 
-- Node.js
-- Express
-- EJS
-- MySQL2
-- jsonwebtoken
-- bcrypt
-- multer
-- TypeScript
+- **Backend**: Node.js, Express.js
+- **Frontend**: EJS templating, CSS3
+- **Database**: MySQL2
+- **Authentication**: JWT, bcrypt
+- **File Uploads**: Multer
+- **Language**: TypeScript
+- **Development**: tsx (for development), tsc (for build)
 
 ## Setup
 
-1. Install dependencies:
+1. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-```bash
-npm install
-```
+2. **Environment setup**:
+   ```bash
+   cp .env.example .env
+   ```
+   Update `.env` with your local MySQL and JWT configuration.
 
-2. Copy environment variables:
+3. **Database setup**:
+   Create a MySQL database and run the schema:
+   ```bash
+   mysql -u your_username -p < sql/schema.sql
+   ```
 
-```bash
-copy .env.example .env
-```
+4. **Development mode**:
+   ```bash
+   npm run dev
+   ```
 
-3. Update `.env` with your local MySQL and JWT values.
-
-4. Create the MySQL database and table using [sql/schema.sql](./sql/schema.sql).
-
-5. Run in development:
-
-```bash
-npm run dev
-```
-
-6. Build and run production:
-
-```bash
-npm run build
-npm start
-```
+5. **Production build**:
+   ```bash
+   npm run build
+   npm start
+   ```
 
 ## Environment Variables
 
-Create a `.env` file from `.env.example` and set:
+Create a `.env` file with:
 
-- `PORT`
-- `DB_HOST`
-- `DB_PORT`
-- `DB_USER`
-- `DB_PASSWORD`
-- `DB_NAME`
-- `JWT_SECRET`
-- `JWT_EXPIRES_IN`
-- `COOKIE_NAME`
-
-## Database Setup
-
-Run the SQL in [sql/schema.sql](./sql/schema.sql) inside MySQL:
-
-```sql
-CREATE DATABASE IF NOT EXISTS twitter_clone;
-USE twitter_clone;
-
-CREATE TABLE IF NOT EXISTS users (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  full_name VARCHAR(120) NOT NULL,
-  username VARCHAR(30) NOT NULL UNIQUE,
-  email VARCHAR(120) NOT NULL UNIQUE,
-  password_hash VARCHAR(255) NOT NULL,
-  bio VARCHAR(280) DEFAULT NULL,
-  avatar_path VARCHAR(255) DEFAULT NULL,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (id)
-);
+```env
+PORT=3000
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=your_mysql_user
+DB_PASSWORD=your_mysql_password
+DB_NAME=twitter_clone
+JWT_SECRET=your_jwt_secret_key
+JWT_EXPIRES_IN=7d
+COOKIE_NAME=twitter_clone_auth
 ```
 
-## Upload To GitHub
+## Database Schema
 
-If this folder is not already a git repository, run:
+The application uses two main tables:
 
-```bash
-git init
-git add .
-git commit -m "Initial Twitter clone auth starter"
+- `users`: User accounts with profile information
+- `tweets`: Tweet content with user relationships
+
+Run `sql/schema.sql` to set up the complete database structure.
+
+## Project Structure
+
+```
+├── src/
+│   ├── app.ts                 # Main application setup
+│   ├── config/
+│   │   ├── db.ts             # Database configuration
+│   │   └── env.ts            # Environment variables
+│   ├── controllers/          # Route handlers
+│   │   ├── auth.controller.ts
+│   │   ├── tweet.controller.ts
+│   │   └── user.controller.ts
+│   ├── middlewares/
+│   │   ├── auth.middleware.ts
+│   │   └── upload.middleware.ts
+│   ├── routes/               # Route definitions
+│   ├── services/             # Business logic
+│   ├── types/                # TypeScript type definitions
+│   ├── utils/                # Utility functions
+│   └── validators/           # Input validation
+├── views/                    # EJS templates
+├── public/css/              # Stylesheets
+├── uploads/                 # User uploaded files
+└── sql/                     # Database schema
 ```
 
-Then create an empty GitHub repository and connect it:
+## API Routes
 
-```bash
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
-git branch -M main
-git push -u origin main
-```
+### Authentication
+- `GET /signup` - Registration page
+- `POST /signup` - Register new user
+- `GET /signin` - Login page
+- `POST /signin` - Authenticate user
+- `POST /logout` - Logout user
 
-Important:
+### Tweets
+- `GET /home` - Main timeline
+- `POST /tweets` - Create new tweet
+- `GET /tweets/:id/edit` - Edit tweet form
+- `POST /tweets/:id/edit` - Update tweet
+- `POST /tweets/:id/delete` - Delete tweet
 
-- Do not upload your real `.env` file
-- Keep `.env` private and only commit `.env.example`
-- If GitHub asks for authentication, use GitHub Desktop, browser sign-in, or a Personal Access Token
+### Users & Profiles
+- `GET /profile` - Current user profile
+- `GET /profile/edit` - Edit profile form
+- `POST /profile/edit` - Update profile
+- `GET /user/:username` - Public user profile
+- `GET /users` - Browse users
+- `POST /search` - Search users
 
-## Copy To Another Local System
+## Development
 
-If you move this project to another laptop or PC, follow these steps:
+### Available Scripts
 
-1. Install Node.js and MySQL on the new system.
-2. Clone or copy the project folder.
-3. Open the project in a terminal.
-4. Install packages:
+- `npm run dev` - Start development server with hot reload
+- `npm run build` - Compile TypeScript to JavaScript
+- `npm start` - Start production server
+- `npm run lint` - Run TypeScript compiler for type checking
 
-```bash
-npm install
-```
+### File Uploads
 
-5. Create the environment file:
+- Profile avatars and cover images are stored in `uploads/`
+- Tweet images are also stored in `uploads/`
+- Multer handles file uploads with size limits and type validation
 
-```bash
-copy .env.example .env
-```
+## Deployment
 
-6. Update `.env` with the new system's MySQL credentials.
-7. Create the database and run the SQL from `sql/schema.sql`.
-8. Start the app:
+1. Build the application:
+   ```bash
+   npm run build
+   ```
 
-```bash
-npm run dev
-```
+2. Set production environment variables
 
-If you want production mode on the new system:
+3. Start the server:
+   ```bash
+   npm start
+   ```
 
-```bash
-npm run build
-npm start
-```
+## Contributing
 
-## Notes For Another System
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
-- `node_modules` should not be copied; always run `npm install`
-- Uploaded avatars are stored in the local `uploads` folder, so copy that folder too if you want existing uploaded images
-- Make sure MySQL is running before starting the app
-- If the port is busy, change `PORT` in `.env`
+## License
 
-## Default Routes
-
-- `/signup`
-- `/signin`
-- `/home`
-- `/logout`
+This project is for educational purposes. See individual file headers for licensing information.
