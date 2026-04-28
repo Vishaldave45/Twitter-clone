@@ -16,3 +16,19 @@ export interface TweetRecord {
 export interface CreateTweetInput {
   textContent: string;
 }
+
+export interface CommentRecord {
+  id: number;
+  tweet_id: number;
+  user_id: number;
+  text_content: string;
+  created_at: Date;
+  updated_at: Date;
+  username: string;
+  full_name: string;
+  avatar_path: string | null;
+}
+
+export interface CommentInput {
+  textContent: string;
+}

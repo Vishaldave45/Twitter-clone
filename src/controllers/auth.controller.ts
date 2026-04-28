@@ -8,7 +8,7 @@ import {
   usernameExists,
   verifyUserCredentials
 } from "../services/auth.service";
-import { getFeedTweets } from "../services/tweet.service";
+import { getFeedTweets, getLikedTweetIdsByUser } from "../services/tweet.service";
 import { SigninInput, SignupInput, ValidationErrors } from "../types/auth";
 import { signAuthToken } from "../utils/jwt";
 import {
@@ -149,12 +149,14 @@ export async function signin(req: Request, res: Response): Promise<void> {
 export async function showHome(req: Request, res: Response): Promise<void> {
   const profile = req.user ? await findUserById(req.user.userId) : null;
   const tweets = await getFeedTweets();
+  const likedTweetIds = req.user ? await getLikedTweetIdsByUser(req.user.userId) : [];
 
   res.render("home", {
     title: "Home",
     user: req.user,
     profile,
-    tweets
+    tweets,
+    likedTweetIds
   });
 }
 

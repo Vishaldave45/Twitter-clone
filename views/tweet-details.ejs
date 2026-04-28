@@ -1,0 +1,123 @@
+<%- include("partials/head", { title }) %>
+  <main class="page">
+    <div class="site-header">
+      <a class="brand" href="/home">Twitter Clone</a>
+      <div class="header-actions">
+        <a class="btn btn-secondary" href="/home">Home</a>
+        <a class="btn btn-secondary" href="/profile">Profile</a>
+        <form action="/logout" method="POST" style="display: inline;">
+          <button class="btn btn-secondary" type="submit">Logout</button>
+        </form>
+      </div>
+    </div>
+
+    <section class="dashboard">
+      <aside class="sidebar">
+        <div class="sidebar-top">
+          <nav class="nav-links">
+            <a href="/home"><strong>Home</strong></a>
+            <a href="/users"><strong>Search</strong></a>
+            <% if (user) { %>
+              <a href="/user/<%= user.username %>"><strong>Profile</strong></a>
+              <a href="/tweet/new" class="tweet-btn"><strong>Post</strong></a>
+              <a href="/reset-password"><strong>Reset Password</strong></a>
+              <a href="/logout" class="logout-link"><strong>Logout</strong></a>
+            <% } else { %>
+              <a href="/signin"><strong>Sign In</strong></a>
+            <% } %>
+          </nav>
+        </div>
+
+        <% if (user) { %>
+          <div class="user-mini-card">
+            <a href="/user/<%= user.username %>" class="user-info">
+              <% if (profile && profile.avatar_path) { %>
+                <img class="avatar-small" src="/uploads/<%= profile.avatar_path %>" />
+              <% } else { %>
+                <div class="avatar-placeholder"><%= user.username.charAt(0).toUpperCase() %></div>
+              <% } %>
+              <div class="names">
+                <p><strong><%= profile?.full_name || user.username %></strong></p>
+                <p class="muted">@<%= user.username %></p>
+              </div>
+            </a>
+          </div>
+        <% } %>
+      </aside>
+
+      <section class="feed">
+        <div class="tweet-card">
+          <div class="tweet-author">
+            <% if (tweet.avatar_path) { %>
+              <img class="avatar" src="/uploads/<%= tweet.avatar_path %>" alt="<%= tweet.username %> avatar" />
+            <% } else { %>
+              <div class="avatar-placeholder"><%= tweet.full_name.charAt(0).toUpperCase() %></div>
+            <% } %>
+            <div>
+              <strong><%= tweet.full_name %></strong>
+              <p class="muted">@<%= tweet.username %> · <%= new Date(tweet.created_at).toLocaleString() %></p>
+            </div>
+          </div>
+          <p class="tweet-body"><%= tweet.text_content %></p>
+          <% if (tweet.image_path) { %>
+            <img class="tweet-image" src="/uploads/<%= tweet.image_path %>" alt="Tweet image" />
+          <% } %>
+          <div class="tweet-meta">
+            <span>❤ <%= tweet.like_count %></span>
+            <span>💬 <%= tweet.comment_count %></span>
+            <span>🔁 <%= tweet.repost_count %></span>
+          </div>
+          <div class="tweet-actions">
+            <form action="/tweets/<%= tweet.id %>/like" method="POST" style="display: inline;">
+              <button class="btn btn-secondary" type="submit"><%= liked ? "Unlike" : "Like" %></button>
+            </form>
+            <form action="/tweets/<%= tweet.id %>/repost" method="POST" style="display: inline; margin-left: 8px;">
+              <button class="btn btn-secondary" type="submit">Repost</button>
+            </form>
+            <a class="btn btn-secondary" href="/tweets/<%= tweet.id %>/share" style="margin-left: 8px;">Share</a>
+          </div>
+        </div>
+
+        <div class="tweet-form-card">
+          <p class="brand">Reply</p>
+          <form action="/tweets/<%= tweet.id %>/comments" method="POST">
+            <div class="form-group full">
+              <label for="text_content">Write your comment</label>
+              <textarea id="text_content" name="text_content" maxlength="280" required></textarea>
+            </div>
+            <div class="hero-actions">
+              <button class="btn btn-primary" type="submit">Comment</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="tweet-feed">
+          <p class="brand">Comments</p>
+          <% if (!comments || comments.length === 0) { %>
+            <div class="tweet-placeholder">
+              <strong>No comments yet</strong>
+              <p class="muted">Be the first to reply.</p>
+            </div>
+          <% } else { %>
+            <% comments.forEach((comment) => { %>
+              <article class="tweet-card">
+                <div class="tweet-author">
+                  <% if (comment.avatar_path) { %>
+                    <img class="avatar" src="/uploads/<%= comment.avatar_path %>" alt="<%= comment.username %> avatar" />
+                  <% } else { %>
+                    <div class="avatar-placeholder"><%= comment.full_name.charAt(0).toUpperCase() %></div>
+                  <% } %>
+                  <div>
+                    <strong><%= comment.full_name %></strong>
+                    <p class="muted">@<%= comment.username %> · <%= new Date(comment.created_at).toLocaleString() %></p>
+                  </div>
+                </div>
+                <p class="tweet-body"><%= comment.text_content %></p>
+              </article>
+            <% }) %>
+          <% } %>
+        </div>
+      </section>
+    </section>
+  </main>
+<%- include("partials/footer") %>

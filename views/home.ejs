@@ -97,9 +97,16 @@
                   <img class="tweet-image" src="/uploads/<%= tweet.image_path %>" alt="Tweet image" />
                 <% } %>
                 <div class="tweet-meta">
-                  <span>❤ <%= tweet.like_count %></span>
-                  <span>💬 <%= tweet.comment_count %></span>
-                  <span>🔁 <%= tweet.repost_count %></span>
+                  <form action="/tweets/<%= tweet.id %>/like" method="POST" style="display: inline;">
+                    <button class="btn btn-tertiary" type="submit">
+                      <%= likedTweetIds?.includes(tweet.id) ? '♥' : '♡' %> <%= tweet.like_count %>
+                    </button>
+                  </form>
+                  <a class="btn btn-tertiary" href="/tweets/<%= tweet.id %>">💬 <%= tweet.comment_count %></a>
+                  <form action="/tweets/<%= tweet.id %>/repost" method="POST" style="display: inline;">
+                    <button class="btn btn-tertiary" type="submit">🔁 <%= tweet.repost_count %></button>
+                  </form>
+                  <a class="btn btn-tertiary" href="/tweets/<%= tweet.id %>/share">↗️ Share</a>
                   <% if (tweet.user_id === user?.userId) { %>
                     <span class="tweet-actions">
                       <a class="btn btn-secondary" href="/tweets/<%= tweet.id %>/edit">Edit</a>
