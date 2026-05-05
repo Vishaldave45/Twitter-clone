@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <%- include("partials/head", { title: "Profile" }) %>
   <main class="page">
     <div class="site-header">
@@ -82,3 +83,56 @@
     </section>
   </main>
 <%- include("partials/footer") %>
+=======
+<%- include("partials/head", { title }) %>
+  <main class="page">
+    <div class="site-header">
+      <a class="brand" href="/home">Twitter Clone</a>
+      <a class="btn btn-secondary" href="/home">Home</a>
+    </div>
+
+    <section class="profile-hero">
+      <div class="cover" style="<%= profile.cover_path ? `background-image: url(${profile.cover_path})` : '' %>"></div>
+      <div class="profile-main">
+        <% if (profile.avatar_path) { %>
+          <img class="avatar large" src="<%= profile.avatar_path %>" alt="<%= profile.username %> avatar" />
+        <% } else { %>
+          <div class="avatar-placeholder large"><%= profile.username.charAt(0).toUpperCase() %></div>
+        <% } %>
+        <div>
+          <h1><%= profile.full_name %></h1>
+          <p class="muted">@<%= profile.username %></p>
+          <p><%= profile.bio || "No bio yet." %></p>
+          <p class="muted">Joined <%= new Date(profile.created_at).toLocaleDateString() %> · <%= profile.time_zone %></p>
+        </div>
+        <% if (isOwnProfile) { %>
+          <a class="btn btn-primary" href="/profile/edit">Edit profile</a>
+        <% } else { %>
+          <form action="/profile/<%= profile.username %>/follow" method="POST">
+            <button class="btn btn-primary" type="submit"><%= stats.isFollowing ? "Unfollow" : "Follow" %></button>
+          </form>
+        <% } %>
+      </div>
+      <div class="stats-row">
+        <span><strong><%= stats.tweetCount %></strong> Tweets</span>
+        <span><strong><%= stats.followerCount %></strong> Followers</span>
+        <span><strong><%= stats.followingCount %></strong> Following</span>
+      </div>
+    </section>
+
+    <section class="feed profile-feed">
+      <p class="brand">Tweets</p>
+      <% tweets.forEach((tweet) => { %>
+        <article class="tweet">
+          <p><%= tweet.content %></p>
+          <% if (tweet.image_path) { %><img class="tweet-image" src="<%= tweet.image_path %>" alt="Tweet image" /><% } %>
+          <div class="tweet-actions">
+            <form action="/tweets/<%= tweet.id %>/like" method="POST"><button class="action-btn" type="submit">Like <%= tweet.like_count %></button></form>
+            <form action="/tweets/<%= tweet.id %>/repost" method="POST"><button class="action-btn" type="submit">Repost <%= tweet.repost_count %></button></form>
+          </div>
+        </article>
+      <% }) %>
+    </section>
+  </main>
+<%- include("partials/footer") %>
+>>>>>>> 8b20fd3 (`Added new features and functionality to the Twitter clone application`)

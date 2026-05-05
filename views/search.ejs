@@ -1,0 +1,30 @@
+<%- include("partials/head", { title }) %>
+  <main class="page">
+    <div class="site-header">
+      <a class="brand" href="/home">Twitter Clone</a>
+      <a class="btn btn-secondary" href="/home">Home</a>
+    </div>
+
+    <section class="feed">
+      <p class="brand">Search</p>
+      <h1>Find users</h1>
+      <form class="search-wide" action="/search" method="GET">
+        <input name="q" value="<%= query %>" placeholder="Name or username" />
+        <button class="btn btn-primary" type="submit">Search</button>
+      </form>
+
+      <div class="user-results">
+        <% users.forEach((result) => { %>
+          <a class="user-result" href="/profile/<%= result.username %>">
+            <% if (result.avatar_path) { %>
+              <img class="tweet-avatar" src="<%= result.avatar_path %>" alt="<%= result.username %> avatar" />
+            <% } else { %>
+              <div class="tweet-avatar placeholder"><%= result.username.charAt(0).toUpperCase() %></div>
+            <% } %>
+            <span><strong><%= result.full_name %></strong><span class="muted">@<%= result.username %></span></span>
+          </a>
+        <% }) %>
+      </div>
+    </section>
+  </main>
+<%- include("partials/footer") %>

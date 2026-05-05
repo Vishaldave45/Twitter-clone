@@ -181,6 +181,11 @@ textarea {
   margin-bottom: 24px;
 }
 
+.search-form {
+  flex: 1;
+  max-width: 360px;
+}
+
 .brand {
   font-weight: 800;
   font-size: 1.2rem;
@@ -593,10 +598,199 @@ textarea {
   box-shadow: var(--shadow);
 }
 
+.check-row {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  font-weight: 700;
+}
+
+.check-row input {
+  width: auto;
+}
+
+.stack-actions {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.composer {
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  gap: 12px;
+  margin: 16px -28px 0;
+  padding: 0 28px 22px;
+}
+
+.composer-actions,
+.tweet-actions,
+.comment-form,
+.search-wide {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tweet-list {
+  display: grid;
+}
+
+.tweet {
+  border-bottom: 1px solid var(--border);
+  padding: 18px 0;
+}
+
+.tweet-head,
+.user-result {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+}
+
+.tweet-avatar {
+  border-radius: 50%;
+  height: 44px;
+  object-fit: cover;
+  width: 44px;
+}
+
+.tweet-avatar.placeholder {
+  background: var(--primary);
+  color: #fff;
+  display: grid;
+  font-weight: 800;
+  place-items: center;
+}
+
+.tweet-image {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  max-height: 420px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.action-btn {
+  background: transparent;
+  border: 0;
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  padding: 8px 0;
+}
+
+.action-btn.danger {
+  color: var(--danger);
+}
+
+.comment-form {
+  margin-top: 10px;
+}
+
+.comment-form input {
+  flex: 1;
+}
+
+.email-shell,
+.profile-hero {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.email-shell {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+}
+
+.email-sidebar {
+  background: #f7fbff;
+  border-right: 1px solid var(--border);
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  padding: 24px;
+}
+
+.email-message {
+  padding: 32px;
+}
+
+.email-message h1 span,
+.otp-box {
+  color: var(--primary);
+}
+
+.otp-box {
+  border: 2px dashed var(--primary);
+  border-radius: 18px;
+  display: inline-block;
+  font-size: 2.4rem;
+  font-weight: 900;
+  letter-spacing: 8px;
+  margin: 10px 0;
+  padding: 16px 22px;
+}
+
+.cover {
+  background: linear-gradient(135deg, #1d9bf0, #8ecdf8);
+  background-position: center;
+  background-size: cover;
+  height: 220px;
+}
+
+.profile-main {
+  align-items: start;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: auto 1fr auto;
+  padding: 0 28px 24px;
+}
+
+.large {
+  height: 116px;
+  margin-top: -58px;
+  width: 116px;
+}
+
+.stats-row {
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 22px;
+  padding: 16px 28px;
+}
+
+.profile-feed {
+  margin-top: 24px;
+}
+
+.user-results {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.user-result {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 14px;
+}
+
+.user-result span span {
+  display: block;
+}
+
 @media (max-width: 820px) {
   .hero,
   .dashboard,
-  .form-grid {
+  .form-grid,
+  .email-shell,
+  .profile-main {
     grid-template-columns: 1fr;
   }
 
@@ -604,6 +798,7 @@ textarea {
     width: min(100% - 20px, 1100px);
   }
 
+<<<<<<< HEAD
   .sidebar {
     position: relative;
     height: auto;
@@ -611,5 +806,14 @@ textarea {
     border-radius: 0;
     border-right: none;
     border-bottom: 1px solid #eff3f4;
+=======
+  .site-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .search-form {
+    max-width: none;
+>>>>>>> 8b20fd3 (`Added new features and functionality to the Twitter clone application`)
   }
 }

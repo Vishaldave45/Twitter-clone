@@ -2,6 +2,7 @@
   <main class="page">
     <div class="site-header">
       <a class="brand" href="/home">Twitter Clone</a>
+<<<<<<< HEAD
       <div class="header-actions">
         <a class="btn btn-secondary" href="/profile">Profile</a>
         <a class="btn btn-secondary" href="/users">Browse users</a>
@@ -43,6 +44,36 @@
           <img class="avatar-small" src="/uploads/<%= profile.avatar_path %>" />
         <% } else { %>
           <div class="avatar-placeholder"><%= user.username.charAt(0).toUpperCase() %></div>
+=======
+      <form class="search-form" action="/search" method="GET">
+        <input name="q" placeholder="Search users" />
+      </form>
+      <form action="/logout" method="POST">
+        <button class="btn btn-secondary" type="submit">Logout</button>
+      </form>
+    </div>
+
+    <section class="dashboard">
+      <aside class="profile-card">
+        <% if (user) { %>
+          <% if (profile && profile.avatar_path) { %>
+            <img class="avatar" src="<%= profile.avatar_path %>" alt="<%= user.username %> avatar" />
+          <% } else { %>
+            <div class="avatar-placeholder"><%= user.username.charAt(0).toUpperCase() %></div>
+          <% } %>
+          <h2>@<%= user.username %></h2>
+          <p class="muted"><%= user.email %></p>
+          <p class="muted">User ID: <%= user.userId %></p>
+          <p class="muted">Time zone: <%= profile ? profile.time_zone : "Asia/Kolkata" %></p>
+          <% if (profile && profile.bio) { %>
+            <p><%= profile.bio %></p>
+          <% } %>
+          <div class="stack-actions">
+            <a class="btn btn-secondary" href="/profile/<%= user.username %>">View profile</a>
+            <a class="btn btn-secondary" href="/profile/edit">Edit profile</a>
+            <a class="btn btn-secondary" href="/change-password">Change password</a>
+          </div>
+>>>>>>> 8b20fd3 (`Added new features and functionality to the Twitter clone application`)
         <% } %>
         <div class="names">
           <p><strong><%= profile?.full_name || user.username %></strong></p>
@@ -54,6 +85,7 @@
 </aside>
 
       <section class="feed">
+<<<<<<< HEAD
         <div class="tweet-form-card">
           <p class="brand">Tweet</p>
           <form action="/tweets" method="POST" enctype="multipart/form-data">
@@ -112,6 +144,66 @@
               </article>
             <% }) %>
           <% } %>
+=======
+        <% if (message) { %>
+          <div class="alert alert-success"><%= message %></div>
+        <% } %>
+        <p class="brand">Home</p>
+        <h1>Home timeline</h1>
+
+        <form class="composer" action="/tweets" method="POST" enctype="multipart/form-data">
+          <textarea name="content" maxlength="280" placeholder="What is happening?"></textarea>
+          <div class="composer-actions">
+            <input name="image" type="file" accept="image/*" />
+            <button class="btn btn-primary" type="submit">Post</button>
+          </div>
+        </form>
+
+        <div class="tweet-list">
+          <% if (tweets.length === 0) { %>
+            <div class="tweet-placeholder">
+              <strong>No tweets yet</strong>
+              <p class="muted">Post your first tweet or follow another user to build your timeline.</p>
+            </div>
+          <% } %>
+          <% tweets.forEach((tweet) => { %>
+            <article class="tweet">
+              <div class="tweet-head">
+                <% if (tweet.avatar_path) { %>
+                  <img class="tweet-avatar" src="<%= tweet.avatar_path %>" alt="<%= tweet.username %> avatar" />
+                <% } else { %>
+                  <div class="tweet-avatar placeholder"><%= tweet.username.charAt(0).toUpperCase() %></div>
+                <% } %>
+                <div>
+                  <strong><%= tweet.full_name %></strong>
+                  <a class="muted" href="/profile/<%= tweet.username %>">@<%= tweet.username %></a>
+                </div>
+              </div>
+              <p><%= tweet.content %></p>
+              <% if (tweet.image_path) { %>
+                <img class="tweet-image" src="<%= tweet.image_path %>" alt="Tweet image" />
+              <% } %>
+              <div class="tweet-actions">
+                <form action="/tweets/<%= tweet.id %>/like" method="POST">
+                  <button class="action-btn" type="submit"><%= tweet.liked_by_me ? "Liked" : "Like" %> <%= tweet.like_count %></button>
+                </form>
+                <form action="/tweets/<%= tweet.id %>/repost" method="POST">
+                  <button class="action-btn" type="submit"><%= tweet.reposted_by_me ? "Reposted" : "Repost" %> <%= tweet.repost_count %></button>
+                </form>
+                <button class="action-btn" type="button" onclick="navigator.clipboard && navigator.clipboard.writeText(location.origin + '/profile/<%= tweet.username %>')">Share</button>
+                <% if (user && tweet.user_id === user.userId) { %>
+                  <form action="/tweets/<%= tweet.id %>/delete" method="POST">
+                    <button class="action-btn danger" type="submit">Delete</button>
+                  </form>
+                <% } %>
+              </div>
+              <form class="comment-form" action="/tweets/<%= tweet.id %>/comments" method="POST">
+                <input name="content" maxlength="280" placeholder="Write a comment" />
+                <button class="btn btn-secondary" type="submit">Comment <%= tweet.comment_count %></button>
+              </form>
+            </article>
+          <% }) %>
+>>>>>>> 8b20fd3 (`Added new features and functionality to the Twitter clone application`)
         </div>
       </section>
     </section>

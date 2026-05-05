@@ -29,6 +29,11 @@
             <input id="password" name="password" type="password" />
             <% if (errors.password) { %><span class="error-text"><%= errors.password %></span><% } %>
           </div>
+
+          <label class="check-row full">
+            <input name="rememberMe" type="checkbox" <%= values.rememberMe ? "checked" : "" %> />
+            Remember me
+          </label>
         </div>
 
         <div class="forgot_password">
@@ -37,6 +42,7 @@
 
         <div class="hero-actions">
           <button class="btn btn-primary" type="submit">Sign in</button>
+          <a class="btn btn-secondary" href="/forgot-password">Forgot password?</a>
         </div>
       </form>
     </section>

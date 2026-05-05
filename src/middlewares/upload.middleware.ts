@@ -19,10 +19,10 @@ const storage = multer.diskStorage({
   }
 });
 
-export const uploadAvatar = multer({
+export const uploadImages = multer({
   storage,
   limits: {
-    fileSize: 2 * 1024 * 1024
+    fileSize: 4 * 1024 * 1024
   },
   fileFilter: (_req, file, cb) => {
     if (!file.mimetype.startsWith("image/")) {
@@ -34,6 +34,7 @@ export const uploadAvatar = multer({
   }
 });
 
+<<<<<<< HEAD
 export const uploadAvatarMiddleware = uploadAvatar.single('avatar');
 
 export const uploadProfile = multer({
@@ -68,3 +69,6 @@ export const uploadTweetImage = multer({
     cb(null, true);
   }
 }).single("image");
+=======
+export const uploadAvatar = uploadImages;
+>>>>>>> 8b20fd3 (`Added new features and functionality to the Twitter clone application`)

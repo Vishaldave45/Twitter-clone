@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,3 +52,52 @@
     </script>
 </body>
 </html>
+=======
+<%- include("partials/head", { title }) %>
+  <main class="page">
+    <div class="site-header">
+      <a class="brand" href="/">Twitter Clone</a>
+      <a class="btn btn-secondary" href="/verify-otp?email=<%= email %>">Enter OTP</a>
+    </div>
+
+    <section class="email-shell">
+      <aside class="email-sidebar">
+        <strong>Your Email Inbox (Simulation)</strong>
+        <span class="muted">Inbox</span>
+        <span class="muted">Password Reset Request</span>
+      </aside>
+
+      <article class="email-message">
+        <p class="brand">Password Reset Request</p>
+        <h1>Your OTP is <span><%= otp %></span></h1>
+        <p>Hello <%= fullName %>, use this 6-digit code to reset your password.</p>
+        <div class="otp-box"><%= otp %></div>
+        <p class="muted">This OTP expires in <strong id="timer">02:00</strong>. A new OTP invalidates the previous one.</p>
+        <form action="/resend-otp" method="POST">
+          <input name="email" type="hidden" value="<%= email %>" />
+          <button id="resendBtn" class="btn btn-secondary" type="submit" disabled>Resend OTP</button>
+        </form>
+        <a class="btn btn-primary" href="/verify-otp?email=<%= email %>">Reset password</a>
+      </article>
+    </section>
+  </main>
+  <script>
+    const expiresAt = new Date("<%= expiresAt %>").getTime();
+    const timer = document.getElementById("timer");
+    const resend = document.getElementById("resendBtn");
+    const tick = () => {
+      const remaining = Math.max(0, expiresAt - Date.now());
+      const seconds = Math.ceil(remaining / 1000);
+      const mins = String(Math.floor(seconds / 60)).padStart(2, "0");
+      const secs = String(seconds % 60).padStart(2, "0");
+      timer.textContent = `${mins}:${secs}`;
+      if (remaining <= 0) {
+        resend.disabled = false;
+        return;
+      }
+      window.setTimeout(tick, 1000);
+    };
+    tick();
+  </script>
+<%- include("partials/footer") %>
+>>>>>>> 8b20fd3 (`Added new features and functionality to the Twitter clone application`)
